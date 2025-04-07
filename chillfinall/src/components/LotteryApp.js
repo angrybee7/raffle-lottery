@@ -6,12 +6,6 @@ import { PublicKey } from '@solana/web3.js';
 import { IDL } from '../constants/idl';
 import { CONFIG } from '../config/constants';
 
-import { Buffer } from 'buffer';
-
-if (typeof window !== "undefined") {
-  window.Buffer = Buffer;
-}
-
 // Pop-up that shows up when we hit a transaction W 🎯
 const TransactionModal = ({ isOpen, onClose, tx }) => {
   if (!isOpen) return null;
@@ -58,31 +52,13 @@ function LotteryApp() {
       // Getting our lottery program ready to cook 🧑‍🍳
       const program = new anchor.Program(IDL, programId, provider);
 
-      // // Sending it! 🚀
-      // const tx = await program.methods
-      //   .buyTicket(new anchor.BN(1)) // Buying 1 ticket
-      //   .accounts({
-      //     lottery: new PublicKey(lotteryAddress),
-      //     buyer: provider.wallet.publicKey,
-      //     systemProgram: anchor.web3.SystemProgram.programId,
-      //   })
-      //   .rpc();
-
-      let tempLottery = new PublicKey(lotteryAddress);
-console.log(tempLottery);
-
-let tempBuy = provider.wallet.publicKey;
-console.log(tempBuy)
-
-let tempProgram = anchor.web3.SystemProgram.programId;
-console.log(tempProgram);
-
-const tx = await program.methods
+      // Sending it! 🚀
+      const tx = await program.methods
         .buyTicket(new anchor.BN(1)) // Buying 1 ticket
         .accounts({
-          lottery: tempLottery,
-          buyer: tempBuy,
-          systemProgram: tempProgram,
+          lottery: new PublicKey(lotteryAddress),
+          buyer: provider.wallet.publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId,
         })
         .rpc();
 

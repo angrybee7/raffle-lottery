@@ -1,19 +1,18 @@
 import { PublicKey, Keypair } from "@solana/web3.js";
 
-const PROGRAM_ID = new PublicKey("2NKe5gPUWQBvNqJ3SHKofxB85KsXy7yAFDewpSZYG9uy");
-const TREASURY = new PublicKey("DsVW3LGHi8FHRhy3yPzjX6WbgZvfFSZ7Dn4oKquHC8ok");
+const PROGRAM_ID = new PublicKey("ybtr8sZyNTJREkcr6yzfNmLy9fZdVtTPz9d5QHJ4HaA");
+const TREASURY = new PublicKey("Cqn7JWx3uCB8iyv5iYbS2L278ZqczGnxnmf6wk7Up38p");
 const LAMPORTS_PER_SOL = 1000000000;
-const VRF_ACCOUNT = new PublicKey("5xrhQ1AzsReqs8G5p5P827N8dZKFvLguX1XkobtQTJCu")
 
 async function main() {
     const lottery = Keypair.generate();
 
     try {
         const tx = await pg.program.methods.createLottery(
-            new anchor.BN(0.1 * LAMPORTS_PER_SOL),
-            70,
+            new anchor.BN(0.001 * LAMPORTS_PER_SOL),
+            90,
             new anchor.BN(10 * LAMPORTS_PER_SOL),
-            TREASURY,
+            TREASURY
         )
         .accounts({
             lottery: lottery.publicKey,
