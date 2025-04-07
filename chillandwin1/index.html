@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Optimized for mobile -->
+  <title>Solana Multi-Wallet</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Solana Wallet Integration</h1>
+    <button id="connectButton">Connect Wallet</button>
+    <div id="walletInfo" style="display: none;">
+      <p>Wallet Address: <span id="walletAddress"></span></p>
+      <p>Balance: <span id="walletBalance"></span> SOL</p>
+      <button id="disconnectButton">Disconnect</button>
+    </div>
+    <div id="lotteryControls" style="display: none;">
+      <h2>Lottery pool</h2>
+      <p>Pool Address: <code>6b2naMXwpyxgJnyxb5ErQaHVuC8Gdo8Pg6y2NZnSEHUa</code></p>
+      <div class="lottery-actions">
+        <input type="number" id="ticketPrice" placeholder="Ticket Price (SOL)" step="0.1" min="0">
+        <input type="number" id="winnerPercentage" placeholder="Winner Percentage" min="1" max="100">
+        <input type="number" id="threshold" placeholder="Threshold (SOL)" step="0.1" min="0">
+        <button id="createLottery">Create Lottery</button>
+        <input type="text" id="lotteryAddress" placeholder="Lottery Address" value="6b2naMXwpyxgJnyxb5ErQaHVuC8Gdo8Pg6y2NZnSEHUa">
+        <button id="buyTicket">Buy Ticket</button>
+        <button id="drawWinner">Draw Winner</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+  <script src="https://unpkg.com/@coral-xyz/anchor@latest/dist/browser/anchor.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

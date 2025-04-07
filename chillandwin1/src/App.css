@@ -1,0 +1,180 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto Mono', monospace; /* Futuristic, tech-inspired font */
+}
+
+html, body {
+    background: linear-gradient(135deg, #1A1A1A, #2A2A2A); /* Softer gradient background */
+    color: #EAEAEA;
+    font-size: 16px;
+    line-height: 1.8;
+    min-height: 100vh;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #1A1A1A, #2A2A2A); /* Softer gradient background */
+}
+
+.container {
+    background: rgba(40, 40, 40, 0.9); /* Slightly lighter background */
+    padding: 3rem; /* Increased padding for more space */
+    border-radius: 15px; /* Slightly more rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Subtle shadow for the box */
+    text-align: center;
+    max-width: 600px; /* Slightly wider container */
+    width: 90%;
+    margin: 2rem; /* Added margin for more spacing */
+}
+
+button {
+    background: linear-gradient(90deg, #222, #444);
+    color: white;
+    border: none;
+    padding: 12px 24px; /* Slightly larger button */
+    border-radius: 50px; /* Rounded corners */
+    cursor: pointer;
+    margin: 20px 0; /* Increased margin for more space */
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #00FFCC, #0044FF);
+    transform: scale(1.1);
+    box-shadow: 0 12px 25px rgba(0, 255, 204, 0.5);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#walletInfo {
+    margin-top: 20px;
+    text-align: centre;
+}
+
+#disconnectButton {
+    background: linear-gradient(90deg, #FF7F00, #FF4500);
+}
+
+#disconnectButton:hover {
+    background: linear-gradient(90deg, #FF4500, #FF7F00);
+}
+
+#lotteryControls {
+    margin-top: 20px;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lottery-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.lottery-actions input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #EAEAEA;
+}
+
+code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #EAEAEA;
+}
+
+.network-badge {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(90deg, #FF7F00, #FF4500);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: rgba(40, 40, 40, 0.9); /* Slightly lighter background */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    max-width: 500px;
+    width: 90%;
+    color: #EAEAEA;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    color: #00FFCC;
+}
+
+.modal-content .tx-hash {
+    font-family: monospace;
+    word-break: break-all;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    border-radius: 4px;
+    display: block;
+    margin: 0.5rem 0;
+    color: #EAEAEA;
+}
+
+.modal-content a {
+    color: #00FFCC;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.modal-content a:hover {
+    text-decoration: underline;
+}
+
+.modal-content button {
+    margin-top: 1rem;
+    width: 100%;
+    background: linear-gradient(90deg, #222, #444);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.modal-content button:hover {
+    background: linear-gradient(90deg, #00FFCC, #0044FF);
+    transform: scale(1.1);
+}
