@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("ybtr8sZyNTJREkcr6yzfNmLy9fZdVtTPz9d5QHJ4HaA");
+declare_id!("7hZNCZkQsruSu3VmjD3WN7ev1JBPLr44mVeNUxqe1mZK");
 
 #[program]
 pub mod solana_lottery {
@@ -113,12 +113,23 @@ pub mod solana_lottery {
 
         let winner_index = calculate_winner_index(&result_buffer, lottery.ticket_buyers.len());
         let winner_pubkey = lottery.ticket_buyers[winner_index];
+      
+        lottery.winner = winner_pubkey;
 
+        emit!(RandomnessProcessed {
+            lottery: lottery.key(),
+            winner: winner_pubkey,
+        });
+
+        Ok(())
+    }
+
+    pub fn send_prize (ctx: Context<SendPrize>) -> Result<()> {
+        let lottery = &mut ctx.accounts.lottery;
         let total_prize_pool = lottery.prize_pool;
         let winner_share = total_prize_pool * (lottery.winner_percentage as u64) / 100;
         let treasury_share = total_prize_pool - winner_share;
 
-        // Transfer to winner
         **lottery.to_account_info().try_borrow_mut_lamports()? -= winner_share;
         **ctx.accounts.winner.try_borrow_mut_lamports()? += winner_share;
 
@@ -126,13 +137,11 @@ pub mod solana_lottery {
         **lottery.to_account_info().try_borrow_mut_lamports()? -= treasury_share;
         **ctx.accounts.treasury.try_borrow_mut_lamports()? += treasury_share;
 
-        emit!(RandomnessProcessed {
-            lottery: lottery.key(),
-            winner: winner_pubkey,
-            prize: winner_share,
+        emit!(SendPrizeEmit {
+            winner: ctx.accounts.winner.key(),
+            prize: winner_share
         });
 
-        // Return remaining rent to authority
         let lottery_lamports = lottery.to_account_info().lamports();
         **lottery.to_account_info().lamports.borrow_mut() = 0;
         **ctx.accounts.authority.to_account_info().lamports.borrow_mut() += lottery_lamports;
@@ -161,6 +170,7 @@ pub struct CreateLottery<'info> {
     pub lottery: Account<'info, Lottery>,
     #[account(mut)]
     pub authority: Signer<'info>,
+    /// CHECK: Receives share of pool
     pub treasury: AccountInfo<'info>,
     pub system_program: Program<'info, System>,
 }
@@ -182,6 +192,21 @@ pub struct RequestRandomness<'info> {
 
 #[derive(Accounts)]
 pub struct ProcessRandomness<'info> {
+    #[account(mut)]
+    pub lottery: Account<'info, Lottery>,
+    /// CHECK: Receives share of pool
+    #[account(mut)]
+    pub winner: AccountInfo<'info>,
+    /// CHECK: Receives share of pool
+    #[account(mut)]
+    pub treasury: AccountInfo<'info>,
+    #[account(mut)]
+    pub authority: Signer<'info>,
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct SendPrize<'info> {
     #[account(mut, close = authority)]
     pub lottery: Account<'info, Lottery>,
     /// CHECK: Receives share of pool
@@ -206,6 +231,7 @@ pub struct Lottery {
     pub prize_pool: u64,
     pub ticket_buyers: Vec<Pubkey>,
     pub bypass: bool,
+    pub winner: Pubkey,
 }
 
 #[event]
@@ -235,6 +261,11 @@ pub struct RandomnessRequested {
 pub struct RandomnessProcessed {
     pub lottery: Pubkey,
     pub winner: Pubkey,
+}
+
+#[event]
+pub struct SendPrizeEmit {
+    pub winner: Pubkey,
     pub prize: u64,
 }
 
@@ -252,4 +283,6 @@ pub enum ErrorCode {
     NoTicketsSold,
     #[msg("Invalid winner percentage.")]
     InvalidWinnerPercentage,
+    #[msg("Winner Account Not Found.")]
+    WinnerAccountNotFound,
 }
